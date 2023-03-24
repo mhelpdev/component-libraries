@@ -1,45 +1,49 @@
 import { PropType, registerComponent } from '@uiflow/cli';
-import { OpenAIApi, Configuration } from "openai";
+import { OpenAIApi, Configuration } from 'openai';
 
 export default registerComponent('openai-ufw-component', {
   name: 'Open AI',
   props: [
     {
-      name: "options",
-      type: PropType.Object,
-      value: {
-        model: "text-davinci-003",
-        api_key: "",
-      }
+      name: 'api_key',
+      type: PropType.String,
+      value: ''
+    },
+    {
+      name: 'model',
+      type: PropType.String,
+      value: 'text-davinci-003',
+      options: ['text-davinci-003', 'text-curie-001', 'text-babbage-001', 'text-ada-001', 'code-davinci-002', 'code-cushman-001', 'gpt4'],
+      description: 'The openAI model used for completion.'
     }
   ],
   blocks: [
     {
       input: {
-        name: "Call",
+        name: 'Call',
         type: PropType.Call,
         arguments: [
           {
-            name: "prompt",
+            name: 'prompt',
             type: PropType.String,
-            value: "Here",
+            value: 'Here',
           }
         ],
         async onEmit({ props, inputs, emit }) {
           const configuration = new Configuration({
-            apiKey: props.options.api_key,
+            apiKey: props.api_key,
           });
           const openai = new OpenAIApi(configuration);
 
           const completion = await openai.createCompletion({
-            model: props.options.model,
+            model: props.model,
             prompt: inputs.prompt,
           });
           const result = {
-            "result": completion.data.choices[0].text,
-            "prompt": inputs.prompt,
-            "model": props.options.model,
-            "api_key": props.options.api_key
+            'result': completion.data.choices[0].text,
+            'prompt': inputs.prompt,
+            'model': props.model,
+            'api_key': props.api_key
           };
           emit('onResult', { result });
         },
