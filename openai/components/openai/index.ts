@@ -41,9 +41,6 @@ export default registerComponent('openai-ufw-component', {
           });
           const result = {
             'result': completion.data.choices[0].text,
-            'prompt': inputs.prompt,
-            'model': props.model,
-            'api_key': props.api_key
           };
           emit('onResult', { result });
         },
