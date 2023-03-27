@@ -1,4 +1,6 @@
-export const b64toBlob = (b64Data: string, contentType = '', sliceSize = 512) => {
+import { Buffer } from 'buffer';
+
+export function b64toBlob(b64Data: string, contentType = '', sliceSize = 512) {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
 
@@ -16,4 +18,11 @@ export const b64toBlob = (b64Data: string, contentType = '', sliceSize = 512) =>
 
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
+}
+
+export async function fetchImageBuffer(src: string) {
+    const blob = await fetch(src).then(r => r.blob());
+    const arrayBuffer = await blob.arrayBuffer();
+    const imageBuffer = Buffer.from(arrayBuffer);
+    return imageBuffer;
 }
