@@ -8,7 +8,7 @@ import {
   executeGenerationRequest,
   onGenerationComplete,
 } from '../../helper/helpers';
-import { b64toBlob } from '../../helper/utils';
+import { b64toBlob, fetchImageBuffer } from '../../helper/utils';
 
 export default registerComponent('image-to-image-ufw-component', {
   name: 'Image To Image',
@@ -40,10 +40,8 @@ export default registerComponent('image-to-image-ufw-component', {
           metadata.set('Authorization', 'Bearer ' + props.api_key);
 
           const client = new GenerationServiceClient('https://grpc.stability.ai', {});
-          
-          const blob = await fetch(inputs.image).then(r => r.blob());
-          const arrayBuffer = await blob.arrayBuffer();
-          const imageBuffer = Buffer.from(arrayBuffer);
+
+          const imageBuffer = await fetchImageBuffer(inputs.image);
           
           const imageStrength = 0.35;
           const request = buildGenerationRequest('stable-diffusion-512-v2-1', {
