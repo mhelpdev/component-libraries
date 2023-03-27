@@ -1,16 +1,16 @@
 import { PropType, registerComponent } from '@uiflow/cli';
+import { grpc as GRPCWeb } from "@improbable-eng/grpc-web";
 import * as Generation from "../../generation/generation_pb";
 import { GenerationServiceClient } from "../../generation/generation_pb_service";
-import { grpc as GRPCWeb } from "@improbable-eng/grpc-web";
-
 import {
   buildGenerationRequest,
   executeGenerationRequest,
   onGenerationComplete,
 } from "../../helper/helpers";
+import { b64toBlob } from '../../helper/utils';
 
-export default registerComponent('diffusion-text-to-image-ufw-component', {
-  name: 'Diffusion Text To Image',
+export default registerComponent('text-to-image-ufw-component', {
+  name: 'Text To Image',
   props: [
     {
       name: 'api_key',
@@ -65,10 +65,14 @@ export default registerComponent('diffusion-text-to-image-ufw-component', {
             .then(onGenerationComplete)
             .then((images: string[]) => {
               // images: array of base64 data
-              const result = {
-                images,
-              };
-              emit('onResult', { result });
+              if (images.length > 0) {
+                const contentType = 'image/png';
+                const blob = b64toBlob(images[0], contentType);
+                const blobUrl = URL.createObjectURL(blob);
+                emit('onResult', { src: blobUrl });
+              } else {
+                emit('onError', { error: 'No images' })
+              }
             })
             .catch((_) => {
               emit('onError', { error: 'Failed to make text-to-image request' });
@@ -81,8 +85,8 @@ export default registerComponent('diffusion-text-to-image-ufw-component', {
           name: 'onResult',
           arguments: [
             {
-              name: 'result',
-              type: PropType.Object,
+              name: 'src',
+              type: PropType.String,
             },
           ],
         },

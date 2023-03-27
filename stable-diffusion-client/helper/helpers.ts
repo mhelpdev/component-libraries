@@ -324,12 +324,8 @@ export function onGenerationComplete(response: GenerationResponse) {
     // Do something with the successful image artifacts
     let image_data: string[] = [];
     response.imageArtifacts.forEach((artifact: Generation.Artifact) => {
-        try {
-            const art_base64 = artifact.getBinary_asB64();
-            image_data.push(art_base64);
-        } catch (error) {
-            console.error("Failed to write resulting image to disk", error);
-        }
+        const art_base64 = artifact.getBinary_asB64();
+        image_data.push(art_base64);
     });
     return image_data;
 }
