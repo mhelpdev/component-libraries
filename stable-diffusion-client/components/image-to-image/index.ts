@@ -17,6 +17,49 @@ export default registerComponent('image-to-image-ufw-component', {
       name: 'api_key',
       type: PropType.String,
       value: ''
+    },
+    {
+      name: 'imageStrength',
+      type: PropType.Number,
+      value: 0.35
+    },
+    {
+      name: 'seed',
+      type: PropType.Number,
+      value: 1413160511
+    },
+    {
+      name: 'samples',
+      type: PropType.Number,
+      value: 1
+    },
+    {
+      name: 'cfgScale',
+      type: PropType.Number,
+      value: 8
+    },
+    {
+      name: 'steps',
+      type: PropType.Number,
+      value: 30
+    },
+    {
+      name: "sampler",
+      type: PropType.String,
+      value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+      options: [
+        `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
+        `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
+      ]
     }
   ],
   blocks: [
@@ -42,8 +85,7 @@ export default registerComponent('image-to-image-ufw-component', {
           const client = new GenerationServiceClient('https://grpc.stability.ai', {});
 
           const imageBuffer = await fetchImageBuffer(inputs.image);
-          
-          const imageStrength = 0.35;
+
           const request = buildGenerationRequest('stable-diffusion-512-v2-1', {
             type: 'image-to-image',
             prompts: [
@@ -51,15 +93,15 @@ export default registerComponent('image-to-image-ufw-component', {
                 text: inputs.prompt,
               },
             ],
-            stepScheduleStart: 1 - imageStrength,
+            stepScheduleStart: 1 - props.imageStrength,
             initImage: imageBuffer,
-            seed: 1413160511,
-            samples: 1,
-            cfgScale: 8,
-            steps: 30,
-            sampler: Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M,
+            seed: props.seed,
+            samples: props.samples,
+            cfgScale: props.cfgScale,
+            steps: props.steps,
+            sampler: props.sampler,
           });
-          
+
           executeGenerationRequest(client, request, metadata)
             .then(onGenerationComplete)
             .then((images: string[]) => {

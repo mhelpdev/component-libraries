@@ -16,6 +16,39 @@ export default registerComponent('text-to-image-ufw-component', {
       name: 'api_key',
       type: PropType.String,
       value: ''
+    },
+    {
+      name: 'samples',
+      type: PropType.Number,
+      value: 1
+    },
+    {
+      name: 'cfgScale',
+      type: PropType.Number,
+      value: 13
+    },
+    {
+      name: 'steps',
+      type: PropType.Number,
+      value: 25
+    },
+    {
+      name: "sampler",
+      type: PropType.String,
+      value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+      options: [
+        `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
+        `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
+      ]
     }
   ],
   blocks: [
@@ -55,10 +88,10 @@ export default registerComponent('text-to-image-ufw-component', {
             ],
             width: inputs.width,
             height: inputs.height,
-            samples: 1,
-            cfgScale: 13,
-            steps: 25,
-            sampler: Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M,
+            samples: props.samples,
+            cfgScale: props.cfgScale,
+            steps: props.steps,
+            sampler: props.sampler,
           });
 
           executeGenerationRequest(client, request, metadata)
