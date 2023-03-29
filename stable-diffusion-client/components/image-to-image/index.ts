@@ -17,49 +17,6 @@ export default registerComponent('image-to-image-ufw-component', {
       name: 'api_key',
       type: PropType.String,
       value: ''
-    },
-    {
-      name: 'imageStrength',
-      type: PropType.Number,
-      value: 0.35
-    },
-    {
-      name: 'seed',
-      type: PropType.Number,
-      value: 1413160511
-    },
-    {
-      name: 'samples',
-      type: PropType.Number,
-      value: 1
-    },
-    {
-      name: 'cfgScale',
-      type: PropType.Number,
-      value: 8
-    },
-    {
-      name: 'steps',
-      type: PropType.Number,
-      value: 30
-    },
-    {
-      name: "sampler",
-      type: PropType.String,
-      value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
-      options: [
-        `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
-        `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
-      ]
     }
   ],
   blocks: [
@@ -77,6 +34,49 @@ export default registerComponent('image-to-image-ufw-component', {
             name: 'image',
             type: PropType.String,
           },
+          {
+            name: 'imageStrength',
+            type: PropType.Number,
+            value: 0.35
+          },
+          {
+            name: 'seed',
+            type: PropType.Number,
+            value: 1413160511
+          },
+          {
+            name: 'samples',
+            type: PropType.Number,
+            value: 1
+          },
+          {
+            name: 'cfgScale',
+            type: PropType.Number,
+            value: 8
+          },
+          {
+            name: 'steps',
+            type: PropType.Number,
+            value: 30
+          },
+          {
+            name: "sampler",
+            type: PropType.String,
+            value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+            options: [
+              `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
+              `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
+            ]
+          }
         ],
         async onEmit({ props, inputs, emit }) {
           const metadata = new GRPCWeb.Metadata();

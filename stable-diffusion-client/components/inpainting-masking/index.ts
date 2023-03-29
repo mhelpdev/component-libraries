@@ -16,44 +16,6 @@ export default registerComponent('inpating-masking-ufw-component', {
       name: 'api_key',
       type: PropType.String,
       value: ''
-    },
-    {
-      name: 'seed',
-      type: PropType.Number,
-      value: 1301380310
-    },
-    {
-      name: 'samples',
-      type: PropType.Number,
-      value: 1
-    },
-    {
-      name: 'cfgScale',
-      type: PropType.Number,
-      value: 8
-    },
-    {
-      name: 'steps',
-      type: PropType.Number,
-      value: 30
-    },
-    {
-      name: "sampler",
-      type: PropType.String,
-      value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
-      options: [
-        `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
-        `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
-      ]
     }
   ],
   blocks: [
@@ -75,13 +37,51 @@ export default registerComponent('inpating-masking-ufw-component', {
             name: 'mask',
             type: PropType.String,
           },
+          {
+            name: 'seed',
+            type: PropType.Number,
+            value: 1301380310
+          },
+          {
+            name: 'samples',
+            type: PropType.Number,
+            value: 1
+          },
+          {
+            name: 'cfgScale',
+            type: PropType.Number,
+            value: 8
+          },
+          {
+            name: 'steps',
+            type: PropType.Number,
+            value: 30
+          },
+          {
+            name: "sampler",
+            type: PropType.String,
+            value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+            options: [
+              `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
+              `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
+            ]
+          }
         ],
         async onEmit({ props, inputs, emit }) {
           const metadata = new GRPCWeb.Metadata();
           metadata.set('Authorization', 'Bearer ' + props.api_key);
 
           const client = new GenerationServiceClient('https://grpc.stability.ai', {});
-          
+
           const imagePromises = await Promise.all([
             fetchImageBuffer(inputs.image),
             fetchImageBuffer(inputs.mask)
@@ -92,7 +92,7 @@ export default registerComponent('inpating-masking-ufw-component', {
           }
           const initImageBuffer = imagePromises[0];
           const maskImageBuffer = imagePromises[1];
-          
+
           const request = buildGenerationRequest('stable-diffusion-512-v2-1', {
             type: 'image-to-image-masking',
             prompts: [
@@ -108,7 +108,7 @@ export default registerComponent('inpating-masking-ufw-component', {
             steps: props.steps,
             sampler: props.sampler,
           });
-          
+
           executeGenerationRequest(client, request, metadata)
             .then(onGenerationComplete)
             .then((images: string[]) => {

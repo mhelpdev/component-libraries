@@ -16,39 +16,6 @@ export default registerComponent('text-to-image-ufw-component', {
       name: 'api_key',
       type: PropType.String,
       value: ''
-    },
-    {
-      name: 'samples',
-      type: PropType.Number,
-      value: 1
-    },
-    {
-      name: 'cfgScale',
-      type: PropType.Number,
-      value: 13
-    },
-    {
-      name: 'steps',
-      type: PropType.Number,
-      value: 25
-    },
-    {
-      name: "sampler",
-      type: PropType.String,
-      value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
-      options: [
-        `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
-        `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
-        `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
-      ]
     }
   ],
   blocks: [
@@ -71,6 +38,39 @@ export default registerComponent('text-to-image-ufw-component', {
             name: 'height',
             type: PropType.Number,
             value: 512,
+          },
+          {
+            name: 'samples',
+            type: PropType.Number,
+            value: 1
+          },
+          {
+            name: 'cfgScale',
+            type: PropType.Number,
+            value: 13
+          },
+          {
+            name: 'steps',
+            type: PropType.Number,
+            value: 25
+          },
+          {
+            name: "sampler",
+            type: PropType.String,
+            value: `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+            options: [
+              `${Generation.DiffusionSampler.SAMPLER_DDIM}`,
+              `${Generation.DiffusionSampler.SAMPLER_DDPM}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_EULER}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_EULER_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_HEUN}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPM_2}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPM_2_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_LMS}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2S_ANCESTRAL}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_2M}`,
+              `${Generation.DiffusionSampler.SAMPLER_K_DPMPP_SDE}`
+            ]
           }
         ],
         onEmit({ props, inputs, emit }) {
