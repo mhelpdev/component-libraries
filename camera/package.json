@@ -1,0 +1,25 @@
+{
+  "name": "camera",
+  "version": "1.0.0",
+  "description": "component for camera view",
+  "main": "index.js",
+  "scripts": {
+    "start": "uiflow serve",
+    "publish": "uiflow publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@uiflow/cli": "^0.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-webcam": "^7.0.1"
+  },
+  "displayName": "camera component"
+}
